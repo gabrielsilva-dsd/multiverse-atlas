@@ -1,0 +1,48 @@
+.hero {
+  min-height: 465px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+.copy { position: relative; z-index: 2; padding: 66px 0 75px; }
+.eyebrow { display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 700; font-size: 11px; letter-spacing: .2em; }
+.pulse { width: 7px; height: 7px; flex: none; background: var(--accent); border-radius: 50%; box-shadow: 0 0 14px var(--accent); }
+.copy h1 { font: 600 clamp(48px,5vw,82px)/1.04 'Space Grotesk',sans-serif; letter-spacing: -.065em; max-width: 760px; margin: 24px 0; }
+.copy h1 em { display: block; color: var(--accent); font-style: normal; }
+.description { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 520px; margin: 0; }
+.link { display: inline-flex; align-items: center; gap: 18px; color: var(--accent); font-size: 13px; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); padding: 0 0 8px; margin-top: 32px; }
+.link svg { transition: transform .2s; }
+.link:hover svg { transform: translateX(5px); }
+
+.art { min-height: 465px; position: relative; display: grid; place-items: center; padding-left: 20px; }
+.portalScene { position: relative; width: min(100%, 480px); aspect-ratio: 16 / 9; background: #1d1d1d; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px #64cf3526, 0 0 55px #42bd2720; animation: sceneGlow 10s ease-in-out infinite; }
+.portalVideo { display: block; width: 100%; height: 100%; object-fit: contain; }
+.coordinate { position: absolute; top: 46px; right: 8px; font-family: 'Space Grotesk',sans-serif; font-size: 10px; letter-spacing: .18em; color: var(--muted); }
+
+@keyframes sceneGlow {
+  0%,100% { box-shadow: 0 0 0 1px #64cf3526, 0 0 55px #42bd2720; }
+  50% { box-shadow: 0 0 0 1px #64cf3540, 0 0 70px #42bd2736; }
+}
+
+@media (max-width: 900px) {
+  .hero { min-height: 390px; }
+  .art { min-height: 390px; }
+  .copy h1 { font-size: clamp(44px,6vw,64px); }
+}
+
+@media (max-width: 700px) {
+  .hero { display: flex; flex-direction: column; align-items: stretch; }
+  .copy { padding: 65px 0 24px; }
+  .copy h1 { font-size: clamp(46px,10vw,68px); }
+  .art { min-height: 0; padding: 10px 0 48px; }
+  .portalScene { width: min(100%, 480px); }
+  .coordinate { display: none; }
+  .description { max-width: 470px; }
+}
+
+.playButton { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; border: 1px solid #8fe35b80; border-radius: 999px; background: #102014e8; color: #dbf7c7; padding: 10px 15px; font-size: 12px; font-weight: 700; box-shadow: 0 8px 24px #0008; }
+.playButton:hover { background: #1c3820; }
+.playSymbol { font-size: 10px; }

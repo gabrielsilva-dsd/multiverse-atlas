@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" role="img" aria-label="Retrato indisponível">
+  <defs>
+    <radialGradient id="bg"><stop stop-color="#28564f"/><stop offset="1" stop-color="#111e2b"/></radialGradient>
+    <linearGradient id="ring" x1="0" x2="1" y1="1" y2="0"><stop stop-color="#2c776b"/><stop offset=".55" stop-color="#b4f075"/><stop offset="1" stop-color="#367e75"/></linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h300v300H0z"/>
+  <circle cx="150" cy="146" r="88" fill="none" stroke="#8cda82" stroke-opacity=".55" stroke-width="19" filter="url(#glow)"/>
+  <circle cx="150" cy="146" r="82" fill="none" stroke="url(#ring)" stroke-width="15"/>
+  <circle cx="150" cy="146" r="64" fill="#152c34"/>
+  <path d="M110 167c12-29 68-29 80 0" fill="none" stroke="#9edc8d" stroke-opacity=".48" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="150" cy="119" r="18" fill="none" stroke="#9edc8d" stroke-opacity=".48" stroke-width="5"/>
+  <text x="150" y="267" text-anchor="middle" fill="#b4f075" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="3">SEM SINAL / ATLAS</text>
+</svg>

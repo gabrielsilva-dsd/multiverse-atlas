@@ -1,0 +1,41 @@
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #14272e;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background: #14272e url('../assets/portal-placeholder.svg') center / cover no-repeat;
+}
+
+.skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(105deg, #223b42 12%, #315056 48%, #223b42 85%);
+  background-size: 200% 100%;
+  animation: imageShimmer 1.8s ease-in-out infinite;
+}
+
+.image {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity .4s ease, filter .5s ease, transform .35s ease;
+}
+
+.loaded {
+  opacity: 1;
+  filter: blur(0);
+}
+
+@keyframes imageShimmer {
+  to { background-position-x: -200%; }
+}
