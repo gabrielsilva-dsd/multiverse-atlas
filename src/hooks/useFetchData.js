@@ -30,5 +30,12 @@ export function useFetchData(filters) {
     setRetryKey((key) => key + 1);
   }, []);
 
+  // Se o aparelho recuperar a rede após uma falha, consulte a página atual novamente.
+  useEffect(() => {
+    if (!state.error) return undefined;
+    window.addEventListener('online', retry);
+    return () => window.removeEventListener('online', retry);
+  }, [state.error, retry]);
+
   return { ...state, retry };
 }

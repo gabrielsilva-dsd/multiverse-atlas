@@ -1,5 +1,8 @@
 const API_URL = 'https://rickandmortyapi.com/api/character/';
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 4;
+
+/** Dá tempo para uma conexão móvel se recuperar sem repetir requisições em sequência. */
+const retryDelay = (attempt) => 700 * 2 ** (attempt - 1);
 
 /** @typedef {{id:number,name:string,status:string,species:string,type:string,gender:string,origin:{name:string},location:{name:string},image:string,episode:string[],url:string}} Character */
 /** @typedef {{info:{count:number,pages:number,next:string|null,prev:string|null},results:Character[]}} CharacterPage */
@@ -29,14 +32,14 @@ export async function getCharacters(filters, signal) {
     } catch (error) {
       if (signal?.aborted || error?.name === 'AbortError') throw error;
       if (attempt === MAX_ATTEMPTS) throw new Error('Não foi possível conectar à API. Verifique sua conexão e tente novamente.');
-      await delay(400 * attempt, signal);
+      await delay(retryDelay(attempt), signal);
       continue;
     }
 
     if (response.status === 404) return { info: { count: 0, pages: 0, next: null, prev: null }, results: [] };
     if (!response.ok) {
       if ((response.status === 429 || response.status >= 500) && attempt < MAX_ATTEMPTS) {
-        await delay(400 * attempt, signal);
+        await delay(retryDelay(attempt), signal);
         continue;
       }
       throw new Error(`A API está indisponível no momento (HTTP ${response.status}). Tente novamente.`);
