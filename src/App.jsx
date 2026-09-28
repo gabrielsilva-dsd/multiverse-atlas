@@ -18,8 +18,13 @@ export default function App() {
   const [page, setPage] = useState(1);
   const [selected, setSelected] = useState(null);
   const resultsRef = useRef(null);
-  const name = useDebounce(query.trim(), 350);
-  const { data, loading, error, retry } = useFetchData({ name, ...filters, page });
+  const requestedFilters = useMemo(
+    () => ({ name: query.trim(), status: filters.status, species: filters.species, gender: filters.gender, page }),
+    [query, filters.status, filters.species, filters.gender, page],
+  );
+  // Agrupa mudanças rápidas de busca, filtros e paginação em uma consulta.
+  const debouncedFilters = useDebounce(requestedFilters, 650);
+  const { data, loading, error, retry } = useFetchData(debouncedFilters);
   const characters = useMemo(() => {
     const seen = new Set();
     return (data?.results ?? []).filter((character) => {
@@ -43,7 +48,7 @@ export default function App() {
     });
   };
   const closeModal = useCallback(() => setSelected(null), []);
-  const pendingSearch = name !== query.trim();
+  const pendingSearch = requestedFilters !== debouncedFilters;
   const isLoading = loading || pendingSearch;
 
   return <>

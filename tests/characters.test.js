@@ -35,3 +35,27 @@ test('cancelamento interrompe a espera antes da segunda tentativa', async () => 
     assert.equal(calls, 1);
   } finally { globalThis.fetch = originalFetch; }
 });
+
+test('consultas repetidas reaproveitam dados e não consomem novas requisições', async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return { ok: true, status: 200, json: async () => ({ info: { count: 1, pages: 1 }, results: [{ id: 826 }] }) };
+  };
+  try {
+    await getCharacters({ name: 'personagem de teste' });
+    await getCharacters({ name: 'personagem de teste' });
+    assert.equal(calls, 1);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('limite 429 não dispara novas tentativas', async () => {
+  const originalFetch = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls += 1; return { ok: false, status: 429 }; };
+  try {
+    await assert.rejects(getCharacters({ name: 'rate-limit-teste' }), /Muitas consultas/);
+    assert.equal(calls, 1);
+  } finally { globalThis.fetch = originalFetch; }
+});
