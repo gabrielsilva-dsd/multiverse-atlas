@@ -1,8 +1,32 @@
 const API_URL = 'https://rickandmortyapi.com/api/character/';
-const MAX_ATTEMPTS = 4;
+const MAX_ATTEMPTS = 3;
+const REQUEST_TIMEOUT_MS = 8000;
 
 /** Dá tempo para uma conexão móvel se recuperar sem repetir requisições em sequência. */
 const retryDelay = (attempt) => 700 * 2 ** (attempt - 1);
+
+/** Limita requisições que ficam pendentes em redes móveis e preserva o cancelamento da busca. */
+async function fetchWithTimeout(url, signal) {
+  const controller = new AbortController();
+  const onAbort = () => controller.abort(signal.reason);
+  if (signal?.aborted) onAbort();
+  else signal?.addEventListener('abort', onAbort, { once: true });
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, REQUEST_TIMEOUT_MS);
+
+  try {
+    return await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } });
+  } catch (error) {
+    if (timedOut && !signal?.aborted) throw new Error('A API demorou para responder. Tente novamente.');
+    throw error;
+  } finally {
+    clearTimeout(timer);
+    signal?.removeEventListener('abort', onAbort);
+  }
+}
 
 /** @typedef {{id:number,name:string,status:string,species:string,type:string,gender:string,origin:{name:string},location:{name:string},image:string,episode:string[],url:string}} Character */
 /** @typedef {{info:{count:number,pages:number,next:string|null,prev:string|null},results:Character[]}} CharacterPage */
@@ -28,7 +52,7 @@ export async function getCharacters(filters, signal) {
     if (signal?.aborted) throw signal.reason;
     let response;
     try {
-      response = await fetch(url, { signal, headers: { Accept: 'application/json' } });
+      response = await fetchWithTimeout(url, signal);
     } catch (error) {
       if (signal?.aborted || error?.name === 'AbortError') throw error;
       if (attempt === MAX_ATTEMPTS) throw new Error('Não foi possível conectar à API. Verifique sua conexão e tente novamente.');
