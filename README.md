@@ -21,7 +21,7 @@ Facilitar a consulta a personagens da série por nome, status, espécie e gêner
 
 ## Tecnologias utilizadas
 
-React 19, Vite 6, JavaScript com JSDoc, CSS Modules, Context API, Fetch API e testes com `node:test`.
+React 19, Vite 6, JavaScript com JSDoc, CSS Modules, Context API, Fetch API, tipografia DM Sans/Space Grotesk/Syne e testes com `node:test`.
 
 ## API escolhida
 
@@ -34,9 +34,10 @@ A [The Rick and Morty API](https://rickandmortyapi.com/documentation) fornece im
 - Filtros combináveis de status, espécie e gênero, com paginação controlada pelo servidor.
 - Remoção de IDs repetidas na página exibida, preservando a ordem da resposta.
 - Modal com foco inicial, ciclo de foco por Tab, Escape para fechar, retorno do foco, bloqueio da rolagem de fundo e cópia da URL da API com feedback.
-- Vídeo do globo fornecido para o projeto, reproduzido sem áudio em loop com poster e botão de reprodução quando o autoplay for bloqueado; retratos com skeleton, transição suave e placeholder local sempre disponível.
+- Vídeo do globo fornecido para o projeto, reproduzido sem áudio em loop com poster e botão de reprodução quando o autoplay for bloqueado; brilho externo estável e retratos com carregamento priorizado, transição suave e placeholder local visível durante a espera ou em caso de falha.
 - Skeleton, erro com nova tentativa e estado vazio com limpeza de filtros.
 - Tema claro e escuro persistido em `localStorage`, com preferência inicial do sistema.
+- Identidade visual com símbolo orbital vetorial, destaque tipográfico discreto e brilho estático no Hero, em harmonia com o vídeo.
 - Layout adaptativo, indicadores de foco visíveis e respeito a `prefers-reduced-motion`.
 
 ## Arquitetura e decisões de engenharia
@@ -50,7 +51,7 @@ A [The Rick and Morty API](https://rickandmortyapi.com/documentation) fornece im
 | `components/` | Interface e interação | Componentes pequenos e CSS Modules para estilos locais. |
 | `App.jsx` | Composição e estado dos filtros | Reinicia a página quando o critério muda; a API faz a filtragem. |
 
-Não há uma chamada por cartão: os dados necessários ao modal já vêm na resposta da listagem. As imagens abaixo da dobra usam `loading="lazy"`. Fontes do Google são um recurso visual externo; a interface possui fontes alternativas locais.
+Não há uma chamada de dados por cartão: os dados necessários ao modal já vêm na resposta da listagem. As imagens dos cartões são requisitadas sem adiamento e as quatro primeiras recebem prioridade maior; a velocidade final depende da conexão e do servidor das imagens. Fontes do Google são um recurso visual externo; a interface possui fontes alternativas locais.
 
 ## Estrutura
 
@@ -127,7 +128,7 @@ Crie um repositório no GitHub com o conteúdo da pasta que contém `package.jso
 
 ## 🤖 Uso de Inteligência Artificial
 
-### Prompt utilizado
+### Prompt utilizado 1 — correção do portal, imagens e modal
 
 Este é um prompt real utilizado para orientar uma das etapas de refinamento do projeto:
 
@@ -153,9 +154,35 @@ Este é um prompt real utilizado para orientar uma das etapas de refinamento do 
 > - O código atualizado e completo dos componentes afetados (Hero/Portal, CharacterCard com o ImageFallback, e o Modal).
 > - Uma breve explicação técnica do motivo dos problemas e das soluções aplicadas.
 
-### Objetivo
+### Objetivo do prompt 1
 
-Pedir apoio na identificação das causas dos bugs de animação e carregamento de imagem e na implementação de interações mais claras. A IA também foi usada para estruturar e gerar o projeto inicial, revisar responsabilidades dos componentes e sugerir correções. O código foi executado, ajustado e verificado com build e testes; a publicação deve ser validada no navegador.
+Identificar as causas do desalinhamento do brilho e das imagens quebradas, implementar um fallback visual durante o carregamento e melhorar o botão do modal com cópia do endpoint e feedback temporário. O pedido define contexto, problemas observados, comportamento esperado e formato da resposta.
+
+### Prompt utilizado 2 — refinamento da experiência
+
+Outro prompt real usado durante a revisão do painel:
+
+> Atue como um Engenheiro de Software Front-End Sênior em React e CSS.
+>
+> Preciso de ajustes finos na UI/UX e na integração de dados do projeto "Multiverse Atlas":
+>
+> 1. Animação Suave e Profissional do Portal (Hero Banner):
+>    - O anel/portal verde no topo está piscando/girando rápido e de forma muito brusca, o que gera desconforto visual.
+>    - Refatore o CSS/keyframes para transformar esse efeito em algo extremamente fluido, suave e elegante. Use um ciclo de animação mais longo (ex: 8s a 12s) com "ease-in-out", rotação lenta e uma pulsação de brilho (glow effect) bem sutil e contínua no fundo, sem oscilações bruscas.
+> 2. Correção de Carregamento e Fallback de Imagens nos Cards:
+>    - Alguns cards de personagens (como ao filtrar por "Desconhecido") continuam exibindo imagens quebradas ou placeholders vazios na grelha, mesmo que a API retorne os dados.
+>    - Implemente um componente seguro de tratamento de imagem (usando o evento onError) com um fallback visual padronizado e elegante.
+>    - Garanta que imagens quebradas da API da Rick and Morty não estraguem o layout das cartas.
+> 3. Remoção de Duplicatas e Tratamento da Paginação:
+>    - Verifique a lógica de renderização da lista para garantir que itens com a mesma ID não sejam renderizados em duplicado na grelha ao mudar de página ou aplicar filtros.
+>
+> Me forneça apenas os códigos CSS e React atualizados para os componentes afetados (Hero/Portal e CharacterCard) e uma explicação direta das alterações.
+
+### Objetivo do prompt 2
+
+Refinar a animação, tornar a apresentação dos retratos resistente a falhas de rede e conferir se paginação e filtros não repetem personagens na grade. O pedido descreve casos reproduzíveis e critérios de qualidade visual. Depois desses prompts, o Hero evoluiu para usar um vídeo fornecido para o projeto; o efeito de brilho ao redor dele foi estabilizado em uma revisão posterior.
+
+A IA também foi usada para estruturar e gerar o projeto inicial, revisar responsabilidades dos componentes e sugerir correções. O código foi executado, ajustado e verificado com build e testes; a publicação ainda precisa ser validada no navegador.
 
 ### Engenharia de Prompt — framework PACO
 

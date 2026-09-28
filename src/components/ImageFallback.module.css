@@ -11,13 +11,18 @@
   background: #14272e url('../assets/portal-placeholder.svg') center / cover no-repeat;
 }
 
-.skeleton {
+.loadingHint {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  bottom: 14px;
   z-index: 1;
-  background: linear-gradient(105deg, #223b42 12%, #315056 48%, #223b42 85%);
-  background-size: 200% 100%;
-  animation: imageShimmer 1.8s ease-in-out infinite;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  border: 2px solid #d5f5bd66;
+  border-top-color: #d5f5bd;
+  border-radius: 50%;
+  animation: imageSpin 1s linear infinite;
 }
 
 .image {
@@ -27,8 +32,8 @@
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  filter: blur(10px);
-  transition: opacity .4s ease, filter .5s ease, transform .35s ease;
+  filter: blur(3px);
+  transition: opacity .22s ease, filter .3s ease, transform .35s ease;
 }
 
 .loaded {
@@ -36,6 +41,6 @@
   filter: blur(0);
 }
 
-@keyframes imageShimmer {
-  to { background-position-x: -200%; }
+@keyframes imageSpin {
+  to { transform: rotate(360deg); }
 }

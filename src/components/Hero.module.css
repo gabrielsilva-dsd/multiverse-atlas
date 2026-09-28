@@ -11,21 +11,17 @@
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--accent); font-weight: 700; font-size: 11px; letter-spacing: .2em; }
 .pulse { width: 7px; height: 7px; flex: none; background: var(--accent); border-radius: 50%; box-shadow: 0 0 14px var(--accent); }
 .copy h1 { font: 600 clamp(48px,5vw,82px)/1.04 'Space Grotesk',sans-serif; letter-spacing: -.065em; max-width: 760px; margin: 24px 0; }
-.copy h1 em { display: block; color: var(--accent); font-style: normal; }
+.copy h1 em { display: block; color: var(--accent); font-style: normal; text-shadow: 0 0 28px var(--accent-glow); }
 .description { color: var(--muted); font-size: 16px; line-height: 1.7; max-width: 520px; margin: 0; }
 .link { display: inline-flex; align-items: center; gap: 18px; color: var(--accent); font-size: 13px; font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--accent); padding: 0 0 8px; margin-top: 32px; }
+.link:hover { text-shadow: 0 0 16px var(--accent-glow); }
 .link svg { transition: transform .2s; }
 .link:hover svg { transform: translateX(5px); }
 
 .art { min-height: 465px; position: relative; display: grid; place-items: center; padding-left: 20px; }
-.portalScene { position: relative; width: min(100%, 480px); aspect-ratio: 16 / 9; background: #1d1d1d; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px #64cf3526, 0 0 55px #42bd2720; animation: sceneGlow 10s ease-in-out infinite; }
+.portalScene { position: relative; width: min(100%, 480px); aspect-ratio: 16 / 9; background: #1d1d1d; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px #64cf3530, 0 0 42px #42bd2726; }
 .portalVideo { display: block; width: 100%; height: 100%; object-fit: contain; }
 .coordinate { position: absolute; top: 46px; right: 8px; font-family: 'Space Grotesk',sans-serif; font-size: 10px; letter-spacing: .18em; color: var(--muted); }
-
-@keyframes sceneGlow {
-  0%,100% { box-shadow: 0 0 0 1px #64cf3526, 0 0 55px #42bd2720; }
-  50% { box-shadow: 0 0 0 1px #64cf3540, 0 0 70px #42bd2736; }
-}
 
 @media (max-width: 900px) {
   .hero { min-height: 390px; }

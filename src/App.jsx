@@ -51,7 +51,7 @@ export default function App() {
     <main className="container"><Hero /><Filters query={query} onQueryChange={(value) => { setQuery(value); setPage(1); }} filters={filters} onFilterChange={changeFilter} onClear={clear} hasFilters={hasFilters}/>
       <section ref={resultsRef} tabIndex={-1} className={styles.results} aria-label="Resultados da busca" aria-busy={isLoading}>
         <div className={styles.resultsHead}><p><span className={styles.liveDot}/>{isLoading ? 'PROCURANDO SINAIS...' : error ? 'CONEXÃO INDISPONÍVEL' : `${data?.info.count ?? 0} PERSONAGENS ENCONTRADOS`}</p><span>{data && !isLoading && !error ? `EXIBINDO ${characters.length} NESTA PÁGINA` : 'DADOS DO MULTIVERSO'}</span></div>
-        {isLoading ? <SkeletonGrid /> : error ? <Feedback kind="error" message={error} onAction={retry}/> : characters.length === 0 ? <Feedback kind="empty" onAction={clear}/> : <div className="grid">{characters.map((character) => <CharacterCard key={character.id} character={character} onOpen={setSelected}/>)}</div>}
+        {isLoading ? <SkeletonGrid /> : error ? <Feedback kind="error" message={error} onAction={retry}/> : characters.length === 0 ? <Feedback kind="empty" onAction={clear}/> : <div className="grid">{characters.map((character, index) => <CharacterCard key={character.id} character={character} priority={index < 4} onOpen={setSelected}/>)}</div>}
         {!isLoading && !error && data && <Pagination page={page} pages={data.info.pages} onPageChange={changePage}/>}
       </section>
     </main>
